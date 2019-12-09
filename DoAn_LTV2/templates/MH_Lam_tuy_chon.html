@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      
+    
+   
+    <title>Làm từng câu tuỳ chọn</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <b>Các câu đã làm:</b>
+                {%for cau in session['Bai_lam']%}
+                    {%if cau['Ket_qua'] != ''%}
+                        ({{cau['Ten']}})
+                    {%endif%}
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" id="CUA_SO_2">
+        <div class="row" style="margin: auto 4px;">
+            {%for cau_hoi in session['De_thi']%}
+
+            
+            <div class="col-md-3 card" style="margin-top: 5px; width: 18rem;">
+             <form method="POST">
+                <div class="card-body">
+                    <h5 class="card-title"><b> {{cau_hoi['Ten']}} </b></h5>
+                    <p class="card-text text-justify">{{cau_hoi['Noi_dung']}}</p>
+                    <input type="text" hidden name="ID" id="ID" value="{{cau_hoi['ID']}}">
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#modalfor{{cau_hoi['ID']}}">
+                        Làm bài
+                    </button>
+                </div>
+            </div>
+
+                <div class="modal fade" id="modalfor{{cau_hoi['ID']}}" tabindex="-1" role="dialog"
+                    aria-labelledby="example{{cau_hoi['ID']}}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="example{{cau_hoi['ID']}}"><b>{{cau_hoi['Ten']}}</b>:
+                                    {{cau_hoi['Noi_dung']}} {%if cau_hoi['Co_hinh'] != '' %} <img src="{{url_for('static',filename = 'Media/'+cau_hoi['Co_hinh'])}}" class="img-fluid" alt="SaHinh"> {%endif%}</h5>
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                {%for dap_an in cau_hoi['Danh_sach_dap_an']['Danh_sach_Chon_lua']%}
+                                <div class="row">
+                                    <div class="col-sm-1">
+                                        <input type="checkbox" name="dap_an_{{dap_an['Ten']}}" value="{{dap_an['La_dap_an']}}">
+                                    </div>
+                                    <div class="col-sm-11 text-justify">
+                                        <p> {{dap_an['Noi_dung']}}</p>
+                                    </div>
+                                </div>
+
+                                {%endfor%}
+
+                            </div>
+                            <div class="modal-footer">
+                                <p style = "position:relative; right:100px;"> {%if id == cau_hoi['ID']%} {{Chuoi_thong_bao}} {%endif%} </p>
+                                <button type="button" name = "Close" value="Close" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary" data-toggle="modal"data-target="#modalfor{{cau_hoi['ID']}}">Kết quả</button>
+                               
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            {%endfor%}
+        </div>
+
+
+    </div>
+
+
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

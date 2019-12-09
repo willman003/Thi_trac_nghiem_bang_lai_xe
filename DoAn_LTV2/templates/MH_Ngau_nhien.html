@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Làm từng câu ngẫu nhiên</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <img src="../static/Media/banner.png" alt="banner" width="100%">
+        <div class="row" style="background-color: whitesmoke; margin: auto 4px;">
+            <div class="col-md-3 text-left" style="padding: 15px;">
+                <img src="../static/Media/PET.png" width="30px" height="30px" alt="logo">
+                <p class="d-inline" style="margin-left: 10px; color: blue">Mô hình - Công nghệ - Kĩ thuật</p>
+            </div>
+            <div class="col-md-3" style="border-left: 2px solid aquamarine; border-right:2px solid aquamarine;">
+                <p class="text-center" style="color:blue ; margin-top:5px;">Thi trắc
+                    nghiệm bằng lái xe A1 <br> Chào khách tham quan </p>
+            </div>
+            <div class="col-md-3">
+                <h4 class="text-center" style="margin-top:15px;"> Làm từng câu ngẫu nhiên</h3>
+
+            </div>
+            <div class="col-md-3 text-center" style="border-left: 2px solid aquamarine; padding:auto 0px;">
+                <a class="btn btn-secondary"
+                    style="background-color: rgb(0, 128, 87); color: white; height: 60%; width: 100%; margin-top: 15px;"
+                    type="button" style="" href="/"> Trang chủ </a>
+            </div>
+        </div>
+    </div>
+
+
+    {%if mo_dau == ""%}
+
+    <div class="container text-center" id="CUA_SO_2" style="position: relative; top: 50px;">
+
+        <div class="row">
+            <h5 class="col" style="line-height: 1.5em;">Chương trình sẽ lựa chọn ngẫu nhiên câu hỏi cho bạn
+                thực hiện <br>
+                Bạn cần thực hiện chính xác câu hỏi hiện tại để được chuyển qua câu hỏi tiếp theo. <br>
+                Ấn nút <b>"Bắt đầu"</b> để thực hiện.
+            </h5>
+        </div>
+        <div class="row" style="position:relative; top:40px;">
+            <div class="col">
+                <form method="post">
+                    <input type="text" hidden name="Mo_Dau" value="1">
+                    <button style="width:30%;height:100%;" class="btn btn-info" type="submit">Bắt đầu</button>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+    {%else%}
+    <div class="container" style="position: relative; top:60px;">
+        <form method="POST">
+            <div class="row rounded-pill" style="border: 1px solid black; background-color: rgb(230, 255, 247);">
+                <div class="col-md-1 text-justify"><b>{{cau_hoi['Ten']}}</b>:</div>
+                <div class="col-md-11 text-justify">
+                    {{cau_hoi['Noi_dung']}}
+                </div>
+
+            </div>
+            {%if cau_hoi['Co_hinh'] != ""%}
+            <div class="row text-left">
+                <img src="{{url_for('static',filename='Media/'+cau_hoi['Co_hinh'])}}" class="img-fluid" alt="SaHinh">
+            </div>
+            {%endif%}
+            <div class="row" style="position: relative; top:30px;">
+                {%for dap_an in cau_hoi['Danh_sach_dap_an']['Danh_sach_Chon_lua']%}
+                <div class="col-md-1 text-left">
+                    <input type="checkbox" {%if 'Lua_chon' in dap_an and dap_an['Lua_chon'] != None%} checked {%endif%} name="dap_an_{{dap_an['Ten']}}" value="{{dap_an['La_dap_an']}}">
+                </div>
+                <div class="col-md-11 text-justify">
+                    {{dap_an['Noi_dung']}}
+                </div>
+                {%endfor%}
+            </div>
+            <div class="row" style="position: relative; top:70px;">
+                {%if chuoi_thong_bao == "Không chính xác" or chuoi_thong_bao == ""%}
+                <div class="col-md-12">
+                    <input type="text" hidden name="dieu_khien" value="1">
+                    <button type="submit" class="btn btn-primary">Kết quả</button>
+                </div>
+                {%endif%}
+            </div>
+        </form>
+
+
+        <div class="row" style="position: relative; top:40px;">
+            {%if id == cau_hoi['ID']%}
+            <div class="col-md-12 text-center">
+                <b>{{chuoi_thong_bao}}</b>
+            </div>
+            {%endif%}
+            {%if chuoi_thong_bao == "Chính xác"%}
+            <div class="col-md-12">
+                <form method="POST" action="/ngau-nhien">
+                    <input type="text" hidden name="DiChuyen" value="{{chuoi_thong_bao}}">
+                    <button type="submit" class="btn btn-danger">Câu hỏi kế tiếp</button>
+                </form>
+            </div>
+            {%endif%}
+
+        </div>
+
+    </div>
+
+    {%endif%}
+
+
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

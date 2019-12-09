@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    {%if session['STT'] < 20%}
+    <form method="POST" id="He_thong">
+        <div class="container" style="position: relative; top:30px;clear: both;">
+            
+            <div class="row rounded-pill" style = "border: 1px solid black; background-color: rgb(230, 255, 247);">
+                <div class="col-md-1 text-justify"><b>Câu {{cau_hoi['STT']}}:</b></div>
+                <div class="col-md-11 text-justify">
+                    {{cau_hoi['Noi_dung']}}
+                </div>
+    
+            </div>
+            {%if cau_hoi['Co_hinh'] != ""%}
+            <div class="row" style="position: relative; top:20px;">
+                <img src="{{url_for('static',filename='Media/'+cau_hoi['Co_hinh'])}}" class="img-fluid" alt="SaHinh">
+            </div>
+            {%endif%}
+            <div class="row" style="position: relative; top:20px;">
+                {%for dap_an in cau_hoi['Danh_sach_dap_an']['Danh_sach_Chon_lua']%}
+                <div class="col-md-1">
+                    <input type="checkbox" name="dap_an_{{dap_an['Ten']}}" value="{{dap_an['La_dap_an']}}">
+                </div>
+                <div class="col-md-11 text-justify">
+                    {{dap_an['Noi_dung']}}
+                </div>
+                {%endfor%}
+            </div>
+            <div class="row" style="position: relative; top:30px;">
+                <div class="col text-center">
+                    <input name = "DiChuyen" hidden type="text">
+                    <button class="btn btn-info" onclick = "DiChuyen.value='1';He_thong.submit();" type="submit">Câu tiếp theo</button>
+                </div>
+            </div>
+            
+        </div>
+    </form>
+    {%else%}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h2>Chúc mừng bạn đã hoàn thành bài thi!</h2>
+            </div>
+            <div class="col-md-12 text-center">
+                <h4>Click vào nút "Nộp bài & Xem kết quả" để xem kết quả</h4>
+            </div>
+        </div>
+    </div>
+
+    {%endif%}
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>

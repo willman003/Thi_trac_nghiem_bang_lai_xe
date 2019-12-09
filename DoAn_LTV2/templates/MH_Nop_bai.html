@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Kết quả thi</title>
+</head>
+
+<body>
+    <div class="container" style="position: relative; top: 50px; padding: 10px; border: 2px inset black; ">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                    <h2>Phiếu kết quả</h2>
+                    <hr>
+                </div>
+        </div>
+        {%if session.get('Ma_de_thi')%}
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h3><b>Đề số {{session['Ma_de_thi']}}</b></h3>
+                <hr>
+            </div>
+        </div>
+        {%endif%}
+        <div class="row">
+                      
+            <div class="col-md-12">
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">Câu</th>
+                            <th scope="col">Bài làm</th>
+                            <th scope="col">Đáp án</th>
+                            <th scope="col">Kết quả</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for cau in bai_lam%}
+                        <tr>
+                            <th scope="row">{{cau['STT']}}</th>
+                            <td>
+                                {%if cau['a'] != None%} (A) {%endif%}
+                                {%if cau['b'] != None%} (B) {%endif%}
+                                {%if 'c' in cau and cau['c'] != None %} (C) {%endif%} 
+                                {%if 'd' in cau and cau['d'] != None %} (D) {%endif%}
+                                
+                            </td>
+                            <td>
+                                {%for dap_an in cau['Danh_sach_dap_an']%}
+                                    {%if dap_an['La_dap_an'] == 'True' and dap_an['Ten'] == '1'%} (A) {%endif%}
+                                    {%if dap_an['La_dap_an'] == 'True' and dap_an['Ten'] == '2'%} (B) {%endif%}
+                                    {%if dap_an['La_dap_an'] == 'True' and dap_an['Ten'] == '3'%} (C) {%endif%}
+                                    {%if dap_an['La_dap_an'] == 'True' and dap_an['Ten'] == '4'%} (D) {%endif%}
+                                    
+
+                                {%endfor%}
+                            </td>
+                            <td class="text-left" {%if cau['Ket_qua'] == "Chính xác"%} style="color:red" {%endif%}>{{cau['Ket_qua']}} {%if cau['Ket_qua'] == "Chính xác"%} &#10003; {%else%} &#10060;{%endif%}</td>
+                        </tr>
+                        {%endfor%}
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+   
+   
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <hr>
+                Kết quả: <b> {{so_cau_dung}}/20 câu </b>
+            </div>
+            <div class="col-md-12 text-right">
+                <hr>
+                Đánh giá: <b>{%if so_cau_dung >= 16 %} Đạt {%else%} Không Đạt {%endif%} </b>
+            </div>
+        </div>
+    </div>
+   
+        <div class="row">
+            <div class="col-md-12 text-center" style="position: relative; top: 60px;">
+                <a class="btn btn-danger" href="/log-out">Quay về</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
